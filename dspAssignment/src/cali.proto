@@ -17,5 +17,5 @@ message recordDetails{
     string date = 3;
     string song = 4;
     string album = 5;
+    
 }
-
