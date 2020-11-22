@@ -34,4 +34,44 @@ service cali on ep {
                             + " - " + <string>result.detail()["message"] + "\n" );
         }
 
+  }
+
+    resource function updateRecord(grpc:Caller caller, recordDetails value) {
+        
+        string payload;
+        error? result =();
+        string recordId = updatedRecord.id;
+        
+        if  (recordMap.hasKey(orderId)) {
+            ordersMap[orderId] = updatedRecord;
+            payload = "Record: " + recordId + "updated";
+            result = caller->send(payload);
+            result = caller->complete();
+        
+        } else {
+            payload = "Record: "+recordId + "cannot be found";
+            result = caller ->sendError(grpc:NOT_FOUND, payload);
+        }
+
+        if (result is error) {
+            log:printError("Error from Connector: " + result.reason() 
+                            + " - " + <string>result.detail()["message"] + "\n" );
+        }
+    }
+
+
+    resource function writeRecord(grpc:Caller caller, string value) {
+
+        string recordId = recordReq.id;
+        recordMap[recordId] = recordReq;
+        string payload = "Status: Record has been written \nRecord ID: "+ recordId;
+
+        error? result = caller->send(payload);
+        result = caller->complete();
+        
+       log:printError("Error from Connector: " + result.reason() 
+                            + " - " + <string>result.detail()["message"] + "\n" );
+
+    }
+}
 
