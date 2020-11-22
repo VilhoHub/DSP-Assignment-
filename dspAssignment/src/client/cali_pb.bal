@@ -1,5 +1,49 @@
+import ballerina/grpc;
 
+public type caliBlockingClient client object {
 
+    *grpc:AbstractClientEndpoint;
+
+    private grpc:Client grpcClient;
+
+    public function __init(string url, grpc:ClientConfiguration? config = ()) {
+        // initialize client endpoint.
+        self.grpcClient = new(url, config);
+        checkpanic self.grpcClient.initStub(self, "blocking", ROOT_DESCRIPTOR, getDescriptorMap());
+    }
+
+    public remote function readRecord(string req, grpc:Headers? headers = ()) returns ([string, grpc:Headers]|grpc:Error) {
+        
+        var payload = check self.grpcClient->blockingExecute("service.cali/readRecord", req, headers);
+        grpc:Headers resHeaders = new;
+        anydata result = ();
+        [result, resHeaders] = payload;
+        return [result.toString(), resHeaders];
+    }
+
+    public remote function updateRecord(recordDetails req, grpc:Headers? headers = ()) returns ([string, grpc:Headers]|grpc:Error) {
+        
+        var payload = check self.grpcClient->blockingExecute("service.cali/updateRecord", req, headers);
+        grpc:Headers resHeaders = new;
+        anydata result = ();
+        [result, resHeaders] = payload;
+        return [result.toString(), resHeaders];
+    }
+
+    public remote function writeRecord(recordDetails req, grpc:Headers? headers = ()) returns ([string, grpc:Headers]|grpc:Error) {
+        
+        var payload = check self.grpcClient->blockingExecute("service.cali/writeRecord", req, headers);
+        grpc:Headers resHeaders = new;
+        anydata result = ();
+        [result, resHeaders] = payload;
+        return [result.toString(), resHeaders];
+    }
+
+};
+
+public type caliClient client object {
+
+    *grpc:AbstractClientEndpoint;
 
     private grpc:Client grpcClient;
 
