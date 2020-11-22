@@ -8,3 +8,13 @@ service cali {
     rpc readRecord(google.protobuf.StringValue) returns (google.protobuf.StringValue);
     rpc updateRecord(recordDetails) returns (google.protobuf.StringValue);
     rpc writeRecord(recordDetails) returns (google.protobuf.StringValue);
+}
+
+message recordDetails{
+
+    string id = 1;
+    string artist = 2;
+    string date = 3;
+    string song = 4;
+    string album = 5;
+}
