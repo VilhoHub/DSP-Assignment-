@@ -1,6 +1,5 @@
 
 
-    *grpc:AbstractClientEndpoint;
 
     private grpc:Client grpcClient;
 
