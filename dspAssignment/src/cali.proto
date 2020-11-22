@@ -18,3 +18,4 @@ message recordDetails{
     string song = 4;
     string album = 5;
 }
+
