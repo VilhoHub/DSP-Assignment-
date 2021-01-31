@@ -49,61 +49,59 @@ jdbc:Client voterDB = new ({
     dbOptions: { useSSL: false }
 })
 
+@docker:Config{
+    name: "testVoTo"
+    tag: "V4.3"
+}
+
+@docker:Expose{}
+
+@kubernetes:Ingress {
+   hostname: "",
+   name: "",
+   path: "/"
+}
+
+@kubernetes:Service {
+   serviceType: "NodePort",
+   name: ""
+}
+
+@kubernetes:Deployment {
+   image: "",
+   baseImage: "",
+   name: "",
+   copyFiles: [{ target: "",
+               source: <path_to_JDBC_jar> }]
+}
+
+@http:ServiceConfig{
+    basePath: "/addNew"
+}
+service addNew on httpListener {
+    @http:ResourceConfig{
+        path: "/voters/{name}"
+    }
+
+    resource function addVoters(http:Caller outboundEP, http:Request request){
+        http:Response reply = new;
+        var payloadJson = request.getJsonPayload();
+        if (payloadJson is json) {
+            Voter|error voterInfo = Voter.constructFrom(payloadJson);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            if (voterInfo is Voter) {
+                // Validate JSON payload
+                if ( voterInfo.voterId == 0 || voterInfo.name == "" || voterInfo.age ==0 || voterInfo.gender == ""|| 
+                     voterInfo.address == "" || voterInfo.nationality == ""|| ) 
+                     {
+                        response.statusCode = 303;
+                        response.setPayload("Error: JSON payload should contain " +
+                        "{voterId:<int> Name:<string>, Age:<int>, Gender:<string>, Address:<address>, Nationality:<string>,");
+                } else {
+                    // Invoke addVoters function to save data in the MySQL database
+                    json ret = insertData(voterInfo.voterId, voterInfo.name, voterInfo.age, voterInfo.gender,
+                     voterInfo.address, voterInfo.nationality);
 
 
 
