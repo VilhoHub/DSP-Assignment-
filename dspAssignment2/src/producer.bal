@@ -10,3 +10,23 @@ kafka:ProducerConfig producerConfigs ={
     acks: "all",
     retryCount: 3
 }
+
+
+
+kafka:Producer kafkaProducer = new (producerConfigs);
+public type APIGatewayListener object {
+   public {
+       EndpointConfiguration config;
+       http:Listener httpListener;
+   }
+   new () {
+       httpListener = new;
+   }
+
+   public function init(EndpointConfiguration config);
+   public function initEndpoint() returns (error);
+   public function signIn(typedesc serviceType);
+   public function Begin();
+   public function LastDate() returns (http:Connection);
+   public function Fraud();
+};
