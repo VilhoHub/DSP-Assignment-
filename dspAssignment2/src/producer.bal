@@ -8,7 +8,7 @@ kafka:ProducerConfig producerConfigs ={
     bootstrapServers: "localhost:2021, localhost:2021" //Creates the producer host,
     clientId: "voter",
     acks: "all",
-    retryCount: 3
+    retryCount: 5
 }
 
 
@@ -30,3 +30,21 @@ public type APIGatewayListener object {
    public function LastDate() returns (http:Connection);
    public function Fraud();
 };
+
+type Voter record {
+    int voterId;
+    string name;
+    int age;
+    string gender;
+    address address;
+    string nationality;
+};
+
+// Creates the client that'll be entered in the database
+jdbc:Client voterDB = new ({
+    url: config:getAsString("DATABASE_URL", "jdbc:mysql://localhost:2021/VOTER_DATA"),
+    username: config:getAsString("DATABASE_USERNAME", "root"),
+    password: config:getAsString("DATABASE_PASSWORD", "root"),
+    poolOptions: { maximumPoolSize: 10 },
+    dbOptions: { useSSL: false }
+})
