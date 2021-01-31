@@ -19,26 +19,6 @@ scheme {
   mutation: Mutation
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 enum BallotInfo{
   Participants
   Title
