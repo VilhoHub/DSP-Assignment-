@@ -3,9 +3,9 @@ import ballerina/log;
 import wso2/gateway;
 import ballerina/kafka;
 
-
+ //Creates the producer host
 kafka:ProducerConfig producerConfigs ={
-    bootstrapServers: "localhost:2021, localhost:2021" //Creates the producer host,
+    bootstrapServers: "localhost:2021, localhost:2021",
     clientId: "voter",
     acks: "all",
     retryCount: 5
@@ -102,7 +102,107 @@ service addNew on httpListener {
                     // Invoke addVoters function to save data in the MySQL database
                     json ret = insertData(voterInfo.voterId, voterInfo.name, voterInfo.age, voterInfo.gender,
                      voterInfo.address, voterInfo.nationality);
+                    
+                    
+                    response.setPayload("data": {
+    "allVoters": [
+      {
+        "Id: 219051704",
+        "Name": "Shania Nkusi",
+        "Address": "Hochland Park, Windhoek",
+        "Nationality: Namibian",
+        "Age: 78",
+        "Gender: Female"
+        "Category": VOTER
+      },
 
+
+      {
+        "Id: 216016681",
+        "Name": "Vijanda Herunga",
+        "Address": "KingFichser, Walvis Bay",
+        "Nationality: Namibian",
+        "Age: 36",
+        "Gender: Female"
+        "Category": VOTER
+      },
+
+
+      {
+        "Id: 219085803",
+        "Name": "Vilho Nguno",
+        "Address": "Khomasdal, Windhoek",
+        "Nationality: Namibian",
+        "Age: 18",
+        "Gender: Male"
+        "Category": VOTER
+      }
+    ]
+ };
+
+
+);         
+                   
+                    response.setPayload(ret);
+                }
+            } else {
+                response.statusCode = 303;
+                response.setPayload("Error: The payload is in the incorrect format"); 
+                //Code above displays error message if payload in it's in an incorrect proper format
+            }
+        } else {
+            response.statusCode = 404;
+            response.setPayload("Error: Occurring Error"); 
+            //Code above displays retrieving error message       }
+    }
+}
+
+
+service displayVoter on httpListener {
+    @http:ResourceConfig{
+        methods: ["GET"],
+        path: "/voter/{voterId}"
+    }
+    resource function displayVoter(http:Caller outboundEP, http:Request request, voterInfo){
+        http:Response reply = new;
+
+
+var workerId = ints:fromString(workerId);
+        if (voterID is int) {
+            var result = rch.readJson(voterId);  // Retrieves voter information from database
+            json viewCurrentInfo = {"Id": "", "Name": " ", "Age:  ": "", "Gender:  " : "", 
+                                    "Address": " ", "Nationality" : "", "Category": VOTER};
+
+
+if(voterInfo is Fraud){
+    listener http:Listener secureHelloWorldEp = new(2021), {
+    auth: {
+        authHandlers: [basicAuthHandler]
+    },
+
+    secureSocket: {
+        keyStore: {
+            path: config:getAsString("Participant has already voted before!") + "/bre/security/rejectsstore",
+            password: "Password1234"
+        }
+    }
+});
+
+
+}
+            byte[] message = viewCurrentInfo.toString().toBytes();
+            var sendResult = kafkaProducer->send(message, string '${members}-" "', partition=0 );
+            response.setPayload(employeeData); // Displays the employee information to the Client
+        } else if(sendResult is error){
+            response.statusCode = 404; // Displays the employee information to the Client
+            response.setJsonPayload({"The ID entered is not signed into the system!"});
+            var responseResult = outboundEP->respond(response);
+        }
+        response.setJsonPayload({"The Data Has Been Saved \nTHANK YOU!"});//Displays a complete message to the user
+        var responseResult = outboundEP->respond(response);
+    }
+    
+}
 
 
 
