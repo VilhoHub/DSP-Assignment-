@@ -40,3 +40,52 @@ type Voter {
   address: string
   nationality: string
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+listener kafka:Consumer consumer = new (consumerConfigs);
+service kafkaService on consumer {
+     resource function DisplayVoters(kafka:Client kafkaClient, kafka:ClientRecord[] records) {
+         foreach var kafkaRecord in records{
+             finalKafkaRecord(kafkaRecord);
+         }
+
+         var commitResult = kafkaClient->commit();
+         if(commitResult is error) {
+             log: printError("!ERROR!", commitResult);
+         }
+     }
+ }
+ 
+ function addVoters(kafka:ClientRecord kafkaRecord){
+     foreach var entry in records {
+         byte[] message  =kafkaRecord.value;
+         if((message1  is string){
+            byte[] serializedMsg  = entry.value;
+            string msg = encoding:byteArrayToString(serializedMsg ); //Displays the serialized message as string 
+            io:println("New Notification from the Admin/n"); //Retrieves kafkaRecord
+            io:println("Database Upddated!"); //The new price for the product has been entered into the database
+        
+        } else{
+         log:printErrror("Error", message1);
+     }
+  }
+ }
