@@ -168,7 +168,6 @@ service  on httpObject {
         }
     }
 }
-
 service  on httpObject {
 
     @http:ResourceConfig 
