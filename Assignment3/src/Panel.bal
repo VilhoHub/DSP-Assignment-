@@ -31,8 +31,6 @@ service kafkaService on panel {
        test:assertFail(<string>applicationDB.detail()["message"]);
     }
 }
-
-
     resource function proposal(kafka:Panel kafkaPanel, kafka:PanelDocuments[] documents) {
     string stage = "You Are Accepted Into The \nProposal Stage!";
     var thesisDB = proposalClient->tweet(stage);
